@@ -925,7 +925,7 @@ class Table:
 
 		# Create the tablet
 		logger.debug("Creating tablet %s" % (fn))
-		fp  = tables.openFile(fn, mode='w')
+		fp  = tables.open_file(fn, mode='w')
 
 		# Force creation of the main subgroup
 		self._get_row_group(fp, 'main', cgroup)
@@ -953,19 +953,19 @@ class Table:
 			with open(fn_r) as f:
 				f.read()
 			# ---
-			fp = tables.openFile(fn_r)
+			fp = tables.open_file(fn_r)
 		elif mode == 'r+':
 			self._check_transaction()
 			fn_w = self._tablet_file(cell_id, cgroup, mode='w')
 			if os.path.isfile(fn_w):
-				fp = tables.openFile(fn_w, mode='a')
+				fp = tables.open_file(fn_w, mode='a')
 			elif self.tablet_exists(cell_id, cgroup): 	# Note: this will download the tablet from remote, if needed
 				# A file exists in an older snapshot. Copy it over here.
 				fn_r = self._tablet_file(cell_id, cgroup)
 				assert fn_r != fn_w, (fn_r, fn_w)
 				shutil.copy(fn_r, fn_w)
 				os.chmod(fn_w, 0664)	# Ensure it's writable
-				fp = tables.openFile(fn_w, mode='a')
+				fp = tables.open_file(fn_w, mode='a')
 			else:
 				# No file exists
 				fp = self._create_tablet(fn_w, cgroup)

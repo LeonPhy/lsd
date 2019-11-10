@@ -318,7 +318,7 @@ class TableCatalog:
 					if tcell not in siblings: # Add only if there's no newer version
 						# check if there are any non-cached data in here
 						try:
-							with tables.openFile(fn) as fp:
+							with tables.open_file(fn) as fp:
 								has_data = len(fp.root.main.table) > 0
 						except tables.exceptions.NoSuchNodeError:
 							has_data = False
