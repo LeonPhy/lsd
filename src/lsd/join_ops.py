@@ -37,9 +37,9 @@ def cached_proj_bhealpix(lon, lat):
 @caching.cached
 def cached_isInsideV(bounds_xy, x, y):
 	# fixing the missing isInside function of custom Polygon package
-	list = []
+	list = np.zeros((len(x),dtype=np.bool)
 	for idx, x_miss in enumerate(x):
-		list.append(bounds_xy.isInside(xmiss, y[idx]))
+		list[idx] = bounds_xy.isInside(xmiss, y[idx])
 	
 	return list
 
@@ -2287,14 +2287,13 @@ def _cache_maker_mapper(qresult, margin_x, db, tabname):
 		# no matter close to which edge it actually is, to
 		# all neighbors.
 		(x, y) = bhpix.proj_bhealpix(rows['_LON'], rows['_LAT'])
-		list = []
+		inMargin = np.zeros((len(x)), dtype=np.bool)
+		
 		# fixing the missing isInside function of custom Polygon package
 		for idx, x_bug in enumerate(x):
-			list.append(~p.isInsideV(x_bug, y[idx]))
+			inMargin[idx] = ~p.isInsideV(x_bug, y[idx])
 			
-		inMargin = list
-		
-		if not inMargin.any():
+		if not any(inMargin):
 			continue
 
 		# Fetch only the rows that are within the margin

@@ -861,13 +861,13 @@ class Table:
 			filters      = schema.get('filters', self._filters)
 			expectedrows = schema.get('expectedrows', 20*1000*1000)
 
-			fp.createTable('/' + group, 'table', np.dtype(schema["columns"]), createparents=True, expectedrows=expectedrows, filters=tables.Filters(**filters))
+			fp.create_table('/' + group, 'table', np.dtype(schema["columns"]), createparents=True, expectedrows=expectedrows, filters=tables.Filters(**filters))
 			g = getattr(fp.root, group)
 
 			# Primary key sequence
 			if group == 'main' and 'primary_key' in schema:
 				seqname = '_seq_' + schema['primary_key']
-				fp.createArray(g, seqname, np.array([1], dtype=np.uint64))
+				fp.create_array(g, seqname, np.array([1], dtype=np.uint64))
 
 			# BLOB storage arrays
 			if 'blobs' in schema:
@@ -882,7 +882,7 @@ class Table:
 					else:
 						atom = tables.Atom.from_dtype(np.dtype(type))
 
-					fp.createVLArray('/' + group +'/blobs', blobcol, atom, "BLOBs", createparents=True, filters=tables.Filters(**filters), expectedsizeinMB=expectedsizeinMB)
+					fp.create_vlarray('/' + group +'/blobs', blobcol, atom, "BLOBs", createparents=True, filters=tables.Filters(**filters), expectedsizeinMB=expectedsizeinMB)
 					
 					b = getattr(g.blobs, blobcol)
 					if isinstance(atom, BLOBAtom):

@@ -326,6 +326,8 @@ class TableCatalog:
 						siblings[tcell] = snapid, has_data
 
 			# Add any relevant pre-existing data
+			i = int(i)
+			j = int(j)
 			offs = self._bmaps[self._pix.level][i, j]
 			if offs != 0:
 				for mjd, snapid, _, next in iter_siblings(self._leaves, offs):
