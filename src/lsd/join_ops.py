@@ -37,7 +37,7 @@ def cached_proj_bhealpix(lon, lat):
 @caching.cached
 def cached_isInsideV(bounds_xy, x, y):
 	# fixing the missing isInside function of custom Polygon package
-	list = np.zeros((len(x),dtype=np.bool)
+	list = np.zeros((len(x)),dtype=np.bool)
 	for idx, x_miss in enumerate(x):
 		list[idx] = bounds_xy.isInside(xmiss, y[idx])
 	
